@@ -18,7 +18,8 @@
 body{
   min-height:100vh;
   background:
-    radial-gradient(circle at top left, rgba(29,155,240,.22), transparent 34%),
+    radial-gradient(circle at top left, rgba(29,155,240,.35), transparent 32%),
+    radial-gradient(circle at top right, rgba(255,255,255,.90), transparent 28%),
     linear-gradient(180deg,#dff1ff,#eef8ff,#ffffff);
   color:#0f172a;
   padding:16px;
@@ -83,44 +84,84 @@ body{
 }
 
 .menu-card{
-  border:0;
+  border:1px solid rgba(255,255,255,.55);
   text-align:left;
-  background:linear-gradient(135deg,#ffffff,#dff1ff);
-  border:1px solid rgba(29,155,240,.25);
-  border-radius:22px;
-  padding:22px;
-  min-height:155px;
+  background:
+    linear-gradient(145deg,rgba(255,255,255,.78),rgba(142,201,243,.62)),
+    radial-gradient(circle at top left,rgba(255,255,255,.9),transparent 38%);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  border-radius:26px;
+  padding:24px;
+  min-height:170px;
   cursor:pointer;
-  box-shadow:0 10px 24px rgba(15,76,129,.12);
-  transition:.2s ease;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.85),
+    0 18px 38px rgba(15,76,129,.18);
+  transition:.25s ease;
+  position:relative;
+  overflow:hidden;
+}
+
+.menu-card::before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:42%;
+  background:linear-gradient(180deg,rgba(255,255,255,.55),rgba(255,255,255,0));
+  pointer-events:none;
+}
+
+.menu-card::after{
+  content:"";
+  position:absolute;
+  width:120px;
+  height:120px;
+  border-radius:50%;
+  background:rgba(255,255,255,.32);
+  right:-35px;
+  top:-45px;
 }
 
 .menu-card:hover{
-  transform:translateY(-4px);
-  box-shadow:0 16px 34px rgba(15,76,129,.18);
+  transform:translateY(-5px) scale(1.01);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.95),
+    0 24px 46px rgba(15,76,129,.25);
 }
 
 .menu-card.active{
-  background:linear-gradient(135deg,#0f4c81,#1d9bf0);
+  background:
+    linear-gradient(145deg,rgba(15,76,129,.92),rgba(29,155,240,.82)),
+    radial-gradient(circle at top left,rgba(255,255,255,.35),transparent 40%);
   color:white;
 }
 
 .menu-icon{
-  width:48px;
-  height:48px;
+  width:50px;
+  height:50px;
   display:flex;
   align-items:center;
   justify-content:center;
-  border-radius:16px;
-  background:#1d9bf0;
-  color:white;
+  border-radius:18px;
+  background:linear-gradient(145deg,#ffffff,#dff1ff);
+  color:#0f4c81;
   font-size:24px;
   margin-bottom:14px;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.9),
+    0 8px 18px rgba(15,76,129,.18);
+  position:relative;
+  z-index:1;
 }
 
-.menu-card.active .menu-icon{
-  background:white;
-  color:#0f4c81;
+.menu-card h2,
+.menu-card p,
+.menu-card .mini-stats{
+  position:relative;
+  z-index:1;
 }
 
 .menu-card h2{
@@ -136,6 +177,42 @@ body{
 
 .menu-card.active p{
   color:#eaf8ff;
+}
+
+.mini-stats{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:8px;
+  margin-top:14px;
+}
+
+.mini-stats div{
+  background:rgba(255,255,255,.72);
+  border:1px solid rgba(29,155,240,.20);
+  border-radius:12px;
+  padding:10px;
+}
+
+.mini-stats small{
+  display:block;
+  font-size:11px;
+  color:#64748b;
+  margin-bottom:4px;
+}
+
+.mini-stats strong{
+  color:#0f4c81;
+  font-size:20px;
+}
+
+.menu-card.active .mini-stats div{
+  background:rgba(255,255,255,.18);
+  border-color:rgba(255,255,255,.28);
+}
+
+.menu-card.active .mini-stats small,
+.menu-card.active .mini-stats strong{
+  color:white;
 }
 
 /* SUB NAV */
@@ -164,32 +241,6 @@ body{
 .sub-nav button.active{
   background:#0f4c81;
   color:white;
-}
-
-/* QUICK OPERATION DASHBOARD */
-.quick-dashboard{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-  gap:14px;
-  margin-bottom:20px;
-}
-
-.stat-card{
-  background:white;
-  padding:18px;
-  border-radius:18px;
-  box-shadow:0 6px 18px rgba(15,76,129,.09);
-  border:1px solid rgba(29,155,240,.14);
-}
-
-.stat-card small{
-  color:#64748b;
-  font-weight:bold;
-}
-
-.stat-card h2{
-  margin-top:8px;
-  color:#0f4c81;
 }
 
 /* SECTIONS */
@@ -255,7 +306,7 @@ input:focus,select:focus,textarea:focus{
 table{
   width:100%;
   border-collapse:collapse;
-  min-width:800px;
+  min-width:900px;
 }
 
 th,td{
@@ -282,6 +333,31 @@ th{
 .partial{background:#fef3c7;color:#92400e;}
 .pending{background:#fef3c7;color:#92400e;}
 .ready{background:#dbeafe;color:#1d4ed8;}
+
+.action-btn{
+  border:0;
+  padding:7px 10px;
+  border-radius:10px;
+  font-size:12px;
+  font-weight:bold;
+  cursor:pointer;
+  margin:2px;
+}
+
+.action-btn.edit{
+  background:#dbeafe;
+  color:#1d4ed8;
+}
+
+.action-btn.status{
+  background:#fef3c7;
+  color:#92400e;
+}
+
+.action-btn.delete{
+  background:#fee2e2;
+  color:#991b1b;
+}
 
 .report-grid{
   display:grid;
@@ -339,29 +415,29 @@ th{
     </button>
 
     <button class="menu-card" onclick="openGroup('operationsGroup', this)">
-  <div class="menu-icon">📋</div>
-  <h2>Operations</h2>
-  <p>Customer records, job orders, laundry queue, and status monitoring.</p>
+      <div class="menu-icon">📋</div>
+      <h2>Operations</h2>
+      <p>Customer records, job orders, laundry queue, and status monitoring.</p>
 
-  <div class="mini-stats">
-    <div>
-      <small>Customers</small>
-      <strong id="totalCustomers">0</strong>
-    </div>
-    <div>
-      <small>Orders</small>
-      <strong id="totalOrders">0</strong>
-    </div>
-    <div>
-      <small>In Process</small>
-      <strong id="pendingOrders">0</strong>
-    </div>
-    <div>
-      <small>Ready</small>
-      <strong id="readyOrders">0</strong>
-    </div>
-  </div>
-</button>
+      <div class="mini-stats">
+        <div>
+          <small>Customers</small>
+          <strong id="totalCustomers">0</strong>
+        </div>
+        <div>
+          <small>Orders</small>
+          <strong id="totalOrders">0</strong>
+        </div>
+        <div>
+          <small>In Process</small>
+          <strong id="pendingOrders">0</strong>
+        </div>
+        <div>
+          <small>Ready</small>
+          <strong id="readyOrders">0</strong>
+        </div>
+      </div>
+    </button>
 
     <button class="menu-card" onclick="openGroup('salesGroup', this)">
       <div class="menu-icon">💳</div>
@@ -407,7 +483,7 @@ th{
         <option>Fixed Rate</option>
       </select>
     </div>
-    <button class="btn" onclick="addService()">Add Service</button>
+    <button class="btn" id="serviceBtn" onclick="saveService()">Add Service</button>
 
     <div class="table-wrap">
       <table>
@@ -416,6 +492,7 @@ th{
             <th>Service</th>
             <th>Rate</th>
             <th>Unit</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody id="serviceTable"></tbody>
@@ -432,7 +509,7 @@ th{
       <input id="customerAddress" placeholder="Address">
       <input id="customerNotes" placeholder="Notes">
     </div>
-    <button class="btn" onclick="addCustomer()">Add Customer</button>
+    <button class="btn" id="customerBtn" onclick="saveCustomer()">Add Customer</button>
 
     <div class="table-wrap">
       <table>
@@ -442,6 +519,7 @@ th{
             <th>Contact</th>
             <th>Address</th>
             <th>Notes</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody id="customerTable"></tbody>
@@ -481,7 +559,7 @@ th{
         <option>Released</option>
       </select>
     </div>
-    <button class="btn" onclick="addOrder()">Add Job Order</button>
+    <button class="btn" id="orderBtn" onclick="saveOrder()">Add Job Order</button>
 
     <div class="table-wrap">
       <table>
@@ -495,6 +573,7 @@ th{
             <th>Total</th>
             <th>Payment</th>
             <th>Status</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody id="orderTable"></tbody>
@@ -559,7 +638,7 @@ th{
       <input id="expenseAmount" type="number" placeholder="Amount">
       <input id="expenseNotes" placeholder="Notes">
     </div>
-    <button class="btn" onclick="addExpense()">Add Expense</button>
+    <button class="btn" id="expenseBtn" onclick="saveExpense()">Add Expense</button>
 
     <div class="table-wrap">
       <table>
@@ -569,6 +648,7 @@ th{
             <th>Category</th>
             <th>Amount</th>
             <th>Notes</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody id="expenseTable"></tbody>
@@ -611,6 +691,11 @@ let orders = JSON.parse(localStorage.getItem("ml_orders")) || [];
 let services = JSON.parse(localStorage.getItem("ml_services")) || [];
 let expenses = JSON.parse(localStorage.getItem("ml_expenses")) || [];
 
+let editCustomerIndex = null;
+let editOrderIndex = null;
+let editServiceIndex = null;
+let editExpenseIndex = null;
+
 function money(num){
   return "₱" + Number(num || 0).toLocaleString("en-PH", {
     minimumFractionDigits:2,
@@ -651,16 +736,25 @@ function showSection(id, btn){
   renderAll();
 }
 
-function addCustomer(){
+/* CUSTOMER */
+function saveCustomer(){
   const name = customerName.value.trim();
   if(!name) return alert("Enter customer name.");
 
-  customers.push({
+  const data = {
     name,
     contact: customerContact.value,
     address: customerAddress.value,
     notes: customerNotes.value
-  });
+  };
+
+  if(editCustomerIndex === null){
+    customers.push(data);
+  }else{
+    customers[editCustomerIndex] = data;
+    editCustomerIndex = null;
+    customerBtn.textContent = "Add Customer";
+  }
 
   customerName.value = "";
   customerContact.value = "";
@@ -671,7 +765,27 @@ function addCustomer(){
   renderAll();
 }
 
-function addOrder(){
+function editCustomer(i){
+  const c = customers[i];
+  customerName.value = c.name;
+  customerContact.value = c.contact;
+  customerAddress.value = c.address;
+  customerNotes.value = c.notes;
+  editCustomerIndex = i;
+  customerBtn.textContent = "Update Customer";
+  window.scrollTo({top:document.getElementById("customers").offsetTop - 20, behavior:"smooth"});
+}
+
+function deleteCustomer(i){
+  if(confirm("Delete this customer?")){
+    customers.splice(i,1);
+    saveData();
+    renderAll();
+  }
+}
+
+/* ORDER */
+function saveOrder(){
   const no = orderNo.value.trim();
   const customer = orderCustomer.value.trim();
   const qty = Number(orderQty.value);
@@ -680,7 +794,7 @@ function addOrder(){
   if(!no || !customer) return alert("Enter job order number and customer.");
   if(!qty || !price) return alert("Enter quantity and price.");
 
-  orders.push({
+  const data = {
     no,
     date: orderDate.value || new Date().toISOString().slice(0,10),
     customer,
@@ -690,47 +804,130 @@ function addOrder(){
     total: qty * price,
     payment: orderPayment.value,
     status: orderStatus.value
-  });
+  };
+
+  if(editOrderIndex === null){
+    orders.push(data);
+  }else{
+    orders[editOrderIndex] = data;
+    editOrderIndex = null;
+    orderBtn.textContent = "Add Job Order";
+  }
 
   orderNo.value = "";
+  orderDate.value = "";
   orderCustomer.value = "";
+  orderService.value = "";
   orderQty.value = "";
   orderPrice.value = "";
+  orderPayment.value = "Unpaid";
+  orderStatus.value = "Received";
 
   saveData();
   renderAll();
 }
 
-function addService(){
+function editOrder(i){
+  const o = orders[i];
+  orderNo.value = o.no;
+  orderDate.value = o.date;
+  orderCustomer.value = o.customer;
+  orderService.value = o.service;
+  orderQty.value = o.qty;
+  orderPrice.value = o.price;
+  orderPayment.value = o.payment;
+  orderStatus.value = o.status;
+  editOrderIndex = i;
+  orderBtn.textContent = "Update Job Order";
+  window.scrollTo({top:document.getElementById("orders").offsetTop - 20, behavior:"smooth"});
+}
+
+function updateOrderStatus(i){
+  const flow = ["Received","Washing","Drying","Folding","Ready for Pickup","Released"];
+  const current = flow.indexOf(orders[i].status);
+  if(current < flow.length - 1){
+    orders[i].status = flow[current + 1];
+  }
+  saveData();
+  renderAll();
+}
+
+function deleteOrder(i){
+  if(confirm("Delete this job order?")){
+    orders.splice(i,1);
+    saveData();
+    renderAll();
+  }
+}
+
+/* SERVICE */
+function saveService(){
   const name = serviceName.value.trim();
   const rate = Number(serviceRate.value);
 
   if(!name || !rate) return alert("Enter service and rate.");
 
-  services.push({
+  const data = {
     name,
     rate,
     unit: serviceUnit.value
-  });
+  };
+
+  if(editServiceIndex === null){
+    services.push(data);
+  }else{
+    services[editServiceIndex] = data;
+    editServiceIndex = null;
+    serviceBtn.textContent = "Add Service";
+  }
 
   serviceName.value = "";
   serviceRate.value = "";
+  serviceUnit.value = "Per Kilo";
 
   saveData();
   renderAll();
 }
 
-function addExpense(){
+function editService(i){
+  const s = services[i];
+  serviceName.value = s.name;
+  serviceRate.value = s.rate;
+  serviceUnit.value = s.unit;
+  editServiceIndex = i;
+  serviceBtn.textContent = "Update Service";
+  window.scrollTo({top:document.getElementById("services").offsetTop - 20, behavior:"smooth"});
+}
+
+function deleteService(i){
+  if(confirm("Delete this service?")){
+    services.splice(i,1);
+    saveData();
+    renderAll();
+  }
+}
+
+/* EXPENSE */
+function saveExpense(){
   const amount = Number(expenseAmount.value);
   if(!amount) return alert("Enter expense amount.");
 
-  expenses.push({
+  const data = {
     date: expenseDate.value || new Date().toISOString().slice(0,10),
     category: expenseCategory.value,
     amount,
     notes: expenseNotes.value
-  });
+  };
 
+  if(editExpenseIndex === null){
+    expenses.push(data);
+  }else{
+    expenses[editExpenseIndex] = data;
+    editExpenseIndex = null;
+    expenseBtn.textContent = "Add Expense";
+  }
+
+  expenseDate.value = "";
   expenseAmount.value = "";
   expenseNotes.value = "";
 
@@ -738,6 +935,26 @@ function addExpense(){
   renderAll();
 }
 
+function editExpense(i){
+  const e = expenses[i];
+  expenseDate.value = e.date;
+  expenseCategory.value = e.category;
+  expenseAmount.value = e.amount;
+  expenseNotes.value = e.notes;
+  editExpenseIndex = i;
+  expenseBtn.textContent = "Update Expense";
+  window.scrollTo({top:document.getElementById("expenses").offsetTop - 20, behavior:"smooth"});
+}
+
+function deleteExpense(i){
+  if(confirm("Delete this expense?")){
+    expenses.splice(i,1);
+    saveData();
+    renderAll();
+  }
+}
+
+/* RENDER */
 function renderAll(){
   renderCustomers();
   renderOrders();
@@ -749,18 +966,22 @@ function renderAll(){
 }
 
 function renderCustomers(){
-  customerTable.innerHTML = customers.map(c => `
+  customerTable.innerHTML = customers.map((c,i) => `
     <tr>
       <td>${c.name}</td>
       <td>${c.contact}</td>
       <td>${c.address}</td>
       <td>${c.notes}</td>
+      <td>
+        <button class="action-btn edit" onclick="editCustomer(${i})">Edit</button>
+        <button class="action-btn delete" onclick="deleteCustomer(${i})">Delete</button>
+      </td>
     </tr>
   `).join("");
 }
 
 function renderOrders(){
-  orderTable.innerHTML = orders.map(o => `
+  orderTable.innerHTML = orders.map((o,i) => `
     <tr>
       <td>${o.no}</td>
       <td>${o.date}</td>
@@ -770,27 +991,40 @@ function renderOrders(){
       <td>${money(o.total)}</td>
       <td><span class="badge ${paymentClass(o.payment)}">${o.payment}</span></td>
       <td><span class="badge ${o.status === 'Ready for Pickup' ? 'ready' : 'pending'}">${o.status}</span></td>
+      <td>
+        <button class="action-btn edit" onclick="editOrder(${i})">Edit</button>
+        <button class="action-btn status" onclick="updateOrderStatus(${i})">Update</button>
+        <button class="action-btn delete" onclick="deleteOrder(${i})">Delete</button>
+      </td>
     </tr>
   `).join("");
 }
 
 function renderServices(){
-  serviceTable.innerHTML = services.map(s => `
+  serviceTable.innerHTML = services.map((s,i) => `
     <tr>
       <td>${s.name}</td>
       <td>${money(s.rate)}</td>
       <td>${s.unit}</td>
+      <td>
+        <button class="action-btn edit" onclick="editService(${i})">Edit</button>
+        <button class="action-btn delete" onclick="deleteService(${i})">Delete</button>
+      </td>
     </tr>
   `).join("");
 }
 
 function renderExpenses(){
-  expenseTable.innerHTML = expenses.map(e => `
+  expenseTable.innerHTML = expenses.map((e,i) => `
     <tr>
       <td>${e.date}</td>
       <td>${e.category}</td>
       <td>${money(e.amount)}</td>
       <td>${e.notes}</td>
+      <td>
+        <button class="action-btn edit" onclick="editExpense(${i})">Edit</button>
+        <button class="action-btn delete" onclick="deleteExpense(${i})">Delete</button>
+      </td>
     </tr>
   `).join("");
 }
