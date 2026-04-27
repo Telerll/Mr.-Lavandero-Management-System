@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Mr. Lavandero Laundry Management System</title>
+<meta name="theme-color" content="#0f4c81">
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Arial,sans-serif;
+}
+
+body{
+  background:#eef6ff;
+  color:#0f172a;
+  padding:16px;
+}
+
+.app{
+  max-width:1200px;
+  margin:auto;
+}
+
+/* HEADER */
+.header{
+  background:linear-gradient(135deg,#0f4c81,#0ea5e9);
+  color:white;
+  padding:24px;
+  border-radius:18px;
+  text-align:center;
+  box-shadow:0 10px 25px rgba(15,76,129,.25);
+}
+
+.header h1{
+  font-size:30px;
+  margin-bottom:6px;
+}
+
+.header p{
+  font-size:15px;
+  opacity:.95;
+}
+
+.tagline{
+  margin-top:10px;
+  font-weight:bold;
+}
+
+/* DASHBOARD */
+.dashboard{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:14px;
+  margin:20px 0;
+}
+
+.card{
+  background:white;
+  padding:18px;
+  border-radius:16px;
+  box-shadow:0 6px 18px rgba(15,23,42,.08);
+}
+
+.card small{
+  color:#64748b;
+  font-weight:bold;
+}
+
+.card h2{
+  margin-top:8px;
+  color:#0f4c81;
+}
+
+/* NAV */
+.nav{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:10px;
+  margin-bottom:20px;
+}
+
+.nav button{
+  border:0;
+  background:#ffffff;
+  padding:14px;
+  border-radius:14px;
+  font-weight:bold;
+  cursor:pointer;
+  box-shadow:0 5px 14px rgba(15,23,42,.08);
+}
+
+.nav button.active{
+  background:#0f4c81;
+  color:white;
+}
+
+/* SECTIONS */
+.section{
+  display:none;
+  background:white;
+  padding:20px;
+  border-radius:18px;
+  box-shadow:0 8px 22px rgba(15,23,42,.08);
+}
+
+.section.active{
+  display:block;
+}
+
+.section h2{
+  margin-bottom:14px;
+  color:#0f4c81;
+}
+
+/* FORMS */
+.form-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:12px;
+  margin-bottom:16px;
+}
+
+input,select,textarea{
+  width:100%;
+  padding:12px;
+  border:1px solid #cbd5e1;
+  border-radius:12px;
+}
+
+textarea{
+  resize:vertical;
+}
+
+.btn{
+  background:#0f4c81;
+  color:white;
+  border:0;
+  padding:12px 18px;
+  border-radius:12px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.btn.secondary{
+  background:#64748b;
+}
+
+/* TABLE */
+.table-wrap{
+  overflow-x:auto;
+  margin-top:16px;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:800px;
+}
+
+th,td{
+  padding:12px;
+  border-bottom:1px solid #e2e8f0;
+  text-align:left;
+  font-size:14px;
+}
+
+th{
+  background:#f1f5f9;
+  color:#0f4c81;
+}
+
+.badge{
+  padding:6px 10px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:bold;
+}
+
+.paid{background:#dcfce7;color:#166534;}
+.unpaid{background:#fee2e2;color:#991b1b;}
+.pending{background:#fef3c7;color:#92400e;}
+.ready{background:#dbeafe;color:#1d4ed8;}
+
+.footer{
+  text-align:center;
+  margin-top:24px;
+  color:#64748b;
+  font-size:13px;
+}
+
+@media(max-width:600px){
+  .header h1{font-size:24px;}
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <header class="header">
+    <h1>Mr. Lavandero Laundry Services</h1>
+    <p>Ipaglalaba ka sa lahat ng panahon</p>
+    <div class="tagline">Tigasin sa linis. Astig sa bango.</div>
+  </header>
+
+  <section class="dashboard">
+    <div class="card">
+      <small>Total Orders</small>
+      <h2 id="totalOrders">0</h2>
+    </div>
+    <div class="card">
+      <small>Total Sales</small>
+      <h2 id="totalSales">₱0.00</h2>
+    </div>
+    <div class="card">
+      <small>Pending</small>
+      <h2 id="pendingOrders">0</h2>
+    </div>
+    <div class="card">
+      <small>Ready for Pickup</small>
+      <h2 id="readyOrders">0</h2>
+    </div>
+    <div class="card">
+      <small>Total Expenses</small>
+      <h2 id="totalExpenses">₱0.00</h2>
+    </div>
+    <div class="card">
+      <small>Net Income</small>
+      <h2 id="netIncome">₱0.00</h2>
+    </div>
+  </section>
+
+  <nav class="nav">
+    <button class="active" onclick="showSection('customers', this)">Customers</button>
+    <button onclick="showSection('orders', this)">Job Orders</button>
+    <button onclick="showSection('services', this)">Services</button>
+    <button onclick="showSection('payments', this)">Payments</button>
+    <button onclick="showSection('status', this)">Status</button>
+    <button onclick="showSection('expenses', this)">Expenses</button>
+    <button onclick="showSection('reports', this)">Reports</button>
+  </nav>
+
+  <!-- 1 CUSTOMER RECORDS -->
+  <section id="customers" class="section active">
+    <h2>Customer Records</h2>
+    <div class="form-grid">
+      <input id="customerName" placeholder="Customer Name">
+      <input id="customerContact" placeholder="Contact Number">
+      <input id="customerAddress" placeholder="Address">
+      <input id="customerNotes" placeholder="Notes">
+    </div>
+    <button class="btn" onclick="addCustomer()">Add Customer</button>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Contact</th>
+            <th>Address</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody id="customerTable"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 2 JOB ORDERS -->
+  <section id="orders" class="section">
+    <h2>Laundry Job Order</h2>
+    <div class="form-grid">
+      <input id="orderNo" placeholder="Job Order No.">
+      <input id="orderDate" type="date">
+      <input id="orderCustomer" placeholder="Customer Name">
+      <select id="orderService">
+        <option value="">Service Type</option>
+        <option>Wash</option>
+        <option>Dry</option>
+        <option>Fold</option>
+        <option>Wash-Dry-Fold</option>
+        <option>Ironing</option>
+        <option>Pickup / Delivery</option>
+      </select>
+      <input id="orderQty" type="number" placeholder="Kilo / Pieces">
+      <input id="orderPrice" type="number" placeholder="Price">
+      <select id="orderPayment">
+        <option>Unpaid</option>
+        <option>Paid</option>
+        <option>Partial</option>
+      </select>
+      <select id="orderStatus">
+        <option>Received</option>
+        <option>Washing</option>
+        <option>Drying</option>
+        <option>Folding</option>
+        <option>Ready for Pickup</option>
+        <option>Released</option>
+      </select>
+    </div>
+    <button class="btn" onclick="addOrder()">Add Job Order</button>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>JO No.</th>
+            <th>Date</th>
+            <th>Customer</th>
+            <th>Service</th>
+            <th>Qty</th>
+            <th>Total</th>
+            <th>Payment</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="orderTable"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 3 SERVICES -->
+  <section id="services" class="section">
+    <h2>Services / Price List</h2>
+    <div class="form-grid">
+      <input id="serviceName" placeholder="Service Name">
+      <input id="serviceRate" type="number" placeholder="Rate">
+      <select id="serviceUnit">
+        <option>Per Kilo</option>
+        <option>Per Piece</option>
+        <option>Fixed Rate</option>
+      </select>
+    </div>
+    <button class="btn" onclick="addService()">Add Service</button>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Service</th>
+            <th>Rate</th>
+            <th>Unit</th>
+          </tr>
+        </thead>
+        <tbody id="serviceTable"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 4 PAYMENTS -->
+  <section id="payments" class="section">
+    <h2>Payment Tracking</h2>
+    <p>Payment status is linked from Job Orders.</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>JO No.</th>
+            <th>Customer</th>
+            <th>Total</th>
+            <th>Payment Status</th>
+          </tr>
+        </thead>
+        <tbody id="paymentTable"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 5 STATUS -->
+  <section id="status" class="section">
+    <h2>Laundry Status Tracking</h2>
+    <p>Track laundry from received to released.</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>JO No.</th>
+            <th>Customer</th>
+            <th>Service</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="statusTable"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 6 EXPENSES -->
+  <section id="expenses" class="section">
+    <h2>Expense Tracker</h2>
+    <div class="form-grid">
+      <input id="expenseDate" type="date">
+      <select id="expenseCategory">
+        <option>Detergent</option>
+        <option>Fabric Conditioner</option>
+        <option>Water</option>
+        <option>Electricity</option>
+        <option>Gas / Fuel</option>
+        <option>Salary</option>
+        <option>Rent</option>
+        <option>Maintenance</option>
+        <option>Other</option>
+      </select>
+      <input id="expenseAmount" type="number" placeholder="Amount">
+      <input id="expenseNotes" placeholder="Notes">
+    </div>
+    <button class="btn" onclick="addExpense()">Add Expense</button>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Category</th>
+            <th>Amount</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody id="expenseTable"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 7 REPORTS -->
+  <section id="reports" class="section">
+    <h2>Dashboard / Reports</h2>
+    <div class="card">
+      <p><strong>Total Sales:</strong> <span id="reportSales">₱0.00</span></p>
+      <p><strong>Total Expenses:</strong> <span id="reportExpenses">₱0.00</span></p>
+      <p><strong>Net Income:</strong> <span id="reportNet">₱0.00</span></p>
+      <p><strong>Total Job Orders:</strong> <span id="reportOrders">0</span></p>
+    </div>
+  </section>
+
+  <div class="footer">
+    Mr. Lavandero Laundry Management System | Saved in this browser
+  </div>
+
+</div>
+
+<script>
+let customers = JSON.parse(localStorage.getItem("ml_customers")) || [];
+let orders = JSON.parse(localStorage.getItem("ml_orders")) || [];
+let services = JSON.parse(localStorage.getItem("ml_services")) || [];
+let expenses = JSON.parse(localStorage.getItem("ml_expenses")) || [];
+
+function money(num){
+  return "₱" + Number(num || 0).toLocaleString("en-PH", {
+    minimumFractionDigits:2,
+    maximumFractionDigits:2
+  });
+}
+
+function saveData(){
+  localStorage.setItem("ml_customers", JSON.stringify(customers));
+  localStorage.setItem("ml_orders", JSON.stringify(orders));
+  localStorage.setItem("ml_services", JSON.stringify(services));
+  localStorage.setItem("ml_expenses", JSON.stringify(expenses));
+}
+
+function showSection(id, btn){
+  document.querySelectorAll(".section").forEach(sec => sec.classList.remove("active"));
+  document.querySelectorAll(".nav button").forEach(b => b.classList.remove("active"));
+
+  document.getElementById(id).classList.add("active");
+  btn.classList.add("active");
+
+  renderAll();
+}
+
+function addCustomer(){
+  const name = customerName.value.trim();
+  if(!name) return alert("Enter customer name.");
+
+  customers.push({
+    name,
+    contact: customerContact.value,
+    address: customerAddress.value,
+    notes: customerNotes.value
+  });
+
+  customerName.value = "";
+  customerContact.value = "";
+  customerAddress.value = "";
+  customerNotes.value = "";
+
+  saveData();
+  renderAll();
+}
+
+function addOrder(){
+  const no = orderNo.value.trim();
+  const customer = orderCustomer.value.trim();
+  const qty = Number(orderQty.value);
+  const price = Number(orderPrice.value);
+
+  if(!no || !customer) return alert("Enter job order number and customer.");
+  if(!qty || !price) return alert("Enter quantity and price.");
+
+  orders.push({
+    no,
+    date: orderDate.value || new Date().toISOString().slice(0,10),
+    customer,
+    service: orderService.value,
+    qty,
+    price,
+    total: qty * price,
+    payment: orderPayment.value,
+    status: orderStatus.value
+  });
+
+  orderNo.value = "";
+  orderCustomer.value = "";
+  orderQty.value = "";
+  orderPrice.value = "";
+
+  saveData();
+  renderAll();
+}
+
+function addService(){
+  const name = serviceName.value.trim();
+  const rate = Number(serviceRate.value);
+
+  if(!name || !rate) return alert("Enter service and rate.");
+
+  services.push({
+    name,
+    rate,
+    unit: serviceUnit.value
+  });
+
+  serviceName.value = "";
+  serviceRate.value = "";
+
+  saveData();
+  renderAll();
+}
+
+function addExpense(){
+  const amount = Number(expenseAmount.value);
+  if(!amount) return alert("Enter expense amount.");
+
+  expenses.push({
+    date: expenseDate.value || new Date().toISOString().slice(0,10),
+    category: expenseCategory.value,
+    amount,
+    notes: expenseNotes.value
+  });
+
+  expenseAmount.value = "";
+  expenseNotes.value = "";
+
+  saveData();
+  renderAll();
+}
+
+function renderAll(){
+  renderCustomers();
+  renderOrders();
+  renderServices();
+  renderExpenses();
+  renderPayments();
+  renderStatus();
+  renderDashboard();
+}
+
+function renderCustomers(){
+  customerTable.innerHTML = customers.map(c => `
+    <tr>
+      <td>${c.name}</td>
+      <td>${c.contact}</td>
+      <td>${c.address}</td>
+      <td>${c.notes}</td>
+    </tr>
+  `).join("");
+}
+
+function renderOrders(){
+  orderTable.innerHTML = orders.map(o => `
+    <tr>
+      <td>${o.no}</td>
+      <td>${o.date}</td>
+      <td>${o.customer}</td>
+      <td>${o.service}</td>
+      <td>${o.qty}</td>
+      <td>${money(o.total)}</td>
+      <td><span class="badge ${o.payment === 'Paid' ? 'paid' : 'unpaid'}">${o.payment}</span></td>
+      <td><span class="badge ${o.status === 'Ready for Pickup' ? 'ready' : 'pending'}">${o.status}</span></td>
+    </tr>
+  `).join("");
+}
+
+function renderServices(){
+  serviceTable.innerHTML = services.map(s => `
+    <tr>
+      <td>${s.name}</td>
+      <td>${money(s.rate)}</td>
+      <td>${s.unit}</td>
+    </tr>
+  `).join("");
+}
+
+function renderExpenses(){
+  expenseTable.innerHTML = expenses.map(e => `
+    <tr>
+      <td>${e.date}</td>
+      <td>${e.category}</td>
+      <td>${money(e.amount)}</td>
+      <td>${e.notes}</td>
+    </tr>
+  `).join("");
+}
+
+function renderPayments(){
+  paymentTable.innerHTML = orders.map(o => `
+    <tr>
+      <td>${o.no}</td>
+      <td>${o.customer}</td>
+      <td>${money(o.total)}</td>
+      <td><span class="badge ${o.payment === 'Paid' ? 'paid' : 'unpaid'}">${o.payment}</span></td>
+    </tr>
+  `).join("");
+}
+
+function renderStatus(){
+  statusTable.innerHTML = orders.map(o => `
+    <tr>
+      <td>${o.no}</td>
+      <td>${o.customer}</td>
+      <td>${o.service}</td>
+      <td><span class="badge ${o.status === 'Ready for Pickup' ? 'ready' : 'pending'}">${o.status}</span></td>
+    </tr>
+  `).join("");
+}
+
+function renderDashboard(){
+  const sales = orders.reduce((sum,o) => sum + Number(o.total || 0), 0);
+  const expenseTotal = expenses.reduce((sum,e) => sum + Number(e.amount || 0), 0);
+  const pending = orders.filter(o => o.status !== "Released").length;
+  const ready = orders.filter(o => o.status === "Ready for Pickup").length;
+  const net = sales - expenseTotal;
+
+  totalOrders.textContent = orders.length;
+  totalSales.textContent = money(sales);
+  pendingOrders.textContent = pending;
+  readyOrders.textContent = ready;
+  totalExpenses.textContent = money(expenseTotal);
+  netIncome.textContent = money(net);
+
+  reportSales.textContent = money(sales);
+  reportExpenses.textContent = money(expenseTotal);
+  reportNet.textContent = money(net);
+  reportOrders.textContent = orders.length;
+}
+
+renderAll();
+</script>
+
+</body>
+</html>
