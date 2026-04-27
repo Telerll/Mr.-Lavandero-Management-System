@@ -16,7 +16,10 @@
 }
 
 body{
-  background:#eef6ff;
+  min-height:100vh;
+  background:
+    radial-gradient(circle at top left, rgba(29,155,240,.22), transparent 34%),
+    linear-gradient(180deg,#dff1ff,#eef8ff,#ffffff);
   color:#0f172a;
   padding:16px;
 }
@@ -28,75 +31,165 @@ body{
 
 /* HEADER */
 .header{
-  background:linear-gradient(135deg,#0f4c81,#0ea5e9);
+  background:linear-gradient(135deg,#0f4c81,#1d9bf0,#8ec9f3);
   color:white;
-  padding:24px;
-  border-radius:18px;
+  padding:28px 20px;
+  border-radius:24px;
   text-align:center;
-  box-shadow:0 10px 25px rgba(15,76,129,.25);
+  box-shadow:0 14px 34px rgba(15,76,129,.28);
+  margin-bottom:18px;
+  position:relative;
+  overflow:hidden;
+}
+
+.header::after{
+  content:"";
+  position:absolute;
+  width:180px;
+  height:180px;
+  border-radius:50%;
+  background:rgba(255,255,255,.18);
+  right:-60px;
+  top:-70px;
 }
 
 .header h1{
-  font-size:30px;
+  font-size:32px;
   margin-bottom:6px;
+  position:relative;
+  z-index:1;
 }
 
 .header p{
   font-size:15px;
   opacity:.95;
+  position:relative;
+  z-index:1;
 }
 
 .tagline{
   margin-top:10px;
   font-weight:bold;
+  position:relative;
+  z-index:1;
 }
 
-/* DASHBOARD */
-.dashboard{
+/* MAIN MENU */
+.main-menu{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-  gap:14px;
+  grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+  gap:16px;
   margin:20px 0;
 }
 
-.card{
-  background:white;
-  padding:18px;
-  border-radius:16px;
-  box-shadow:0 6px 18px rgba(15,23,42,.08);
+.menu-card{
+  border:0;
+  text-align:left;
+  background:linear-gradient(135deg,#ffffff,#dff1ff);
+  border:1px solid rgba(29,155,240,.25);
+  border-radius:22px;
+  padding:22px;
+  min-height:155px;
+  cursor:pointer;
+  box-shadow:0 10px 24px rgba(15,76,129,.12);
+  transition:.2s ease;
 }
 
-.card small{
+.menu-card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 16px 34px rgba(15,76,129,.18);
+}
+
+.menu-card.active{
+  background:linear-gradient(135deg,#0f4c81,#1d9bf0);
+  color:white;
+}
+
+.menu-icon{
+  width:48px;
+  height:48px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:16px;
+  background:#1d9bf0;
+  color:white;
+  font-size:24px;
+  margin-bottom:14px;
+}
+
+.menu-card.active .menu-icon{
+  background:white;
+  color:#0f4c81;
+}
+
+.menu-card h2{
+  font-size:22px;
+  margin-bottom:8px;
+}
+
+.menu-card p{
+  font-size:14px;
+  line-height:1.5;
+  color:#475569;
+}
+
+.menu-card.active p{
+  color:#eaf8ff;
+}
+
+/* SUB NAV */
+.sub-nav{
+  display:none;
+  grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+  gap:10px;
+  margin:0 0 18px;
+}
+
+.sub-nav.active{
+  display:grid;
+}
+
+.sub-nav button{
+  border:0;
+  background:#ffffff;
+  padding:13px;
+  border-radius:14px;
+  font-weight:bold;
+  cursor:pointer;
+  color:#0f4c81;
+  box-shadow:0 5px 14px rgba(15,76,129,.10);
+}
+
+.sub-nav button.active{
+  background:#0f4c81;
+  color:white;
+}
+
+/* QUICK OPERATION DASHBOARD */
+.quick-dashboard{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:14px;
+  margin-bottom:20px;
+}
+
+.stat-card{
+  background:white;
+  padding:18px;
+  border-radius:18px;
+  box-shadow:0 6px 18px rgba(15,76,129,.09);
+  border:1px solid rgba(29,155,240,.14);
+}
+
+.stat-card small{
   color:#64748b;
   font-weight:bold;
 }
 
-.card h2{
+.stat-card h2{
   margin-top:8px;
   color:#0f4c81;
-}
-
-/* NAV */
-.nav{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
-  gap:10px;
-  margin-bottom:20px;
-}
-
-.nav button{
-  border:0;
-  background:#ffffff;
-  padding:14px;
-  border-radius:14px;
-  font-weight:bold;
-  cursor:pointer;
-  box-shadow:0 5px 14px rgba(15,23,42,.08);
-}
-
-.nav button.active{
-  background:#0f4c81;
-  color:white;
 }
 
 /* SECTIONS */
@@ -104,8 +197,9 @@ body{
   display:none;
   background:white;
   padding:20px;
-  border-radius:18px;
-  box-shadow:0 8px 22px rgba(15,23,42,.08);
+  border-radius:22px;
+  box-shadow:0 10px 26px rgba(15,76,129,.10);
+  border:1px solid rgba(29,155,240,.12);
 }
 
 .section.active{
@@ -130,10 +224,12 @@ input,select,textarea{
   padding:12px;
   border:1px solid #cbd5e1;
   border-radius:12px;
+  outline:none;
 }
 
-textarea{
-  resize:vertical;
+input:focus,select:focus,textarea:focus{
+  border-color:#1d9bf0;
+  box-shadow:0 0 0 3px rgba(29,155,240,.14);
 }
 
 .btn{
@@ -146,8 +242,8 @@ textarea{
   cursor:pointer;
 }
 
-.btn.secondary{
-  background:#64748b;
+.btn:hover{
+  background:#1d9bf0;
 }
 
 /* TABLE */
@@ -170,7 +266,7 @@ th,td{
 }
 
 th{
-  background:#f1f5f9;
+  background:#dff1ff;
   color:#0f4c81;
 }
 
@@ -183,8 +279,32 @@ th{
 
 .paid{background:#dcfce7;color:#166534;}
 .unpaid{background:#fee2e2;color:#991b1b;}
+.partial{background:#fef3c7;color:#92400e;}
 .pending{background:#fef3c7;color:#92400e;}
 .ready{background:#dbeafe;color:#1d4ed8;}
+
+.report-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:14px;
+}
+
+.report-card{
+  background:#f8fcff;
+  border:1px solid #dff1ff;
+  border-radius:18px;
+  padding:18px;
+}
+
+.report-card small{
+  color:#64748b;
+  font-weight:bold;
+}
+
+.report-card h2{
+  margin-top:8px;
+  color:#0f4c81;
+}
 
 .footer{
   text-align:center;
@@ -194,7 +314,9 @@ th{
 }
 
 @media(max-width:600px){
+  body{padding:10px;}
   .header h1{font-size:24px;}
+  .menu-card{min-height:auto;}
 }
 </style>
 </head>
@@ -209,45 +331,100 @@ th{
     <div class="tagline">Tigasin sa linis. Astig sa bango.</div>
   </header>
 
-  <section class="dashboard">
-    <div class="card">
+  <section class="quick-dashboard">
+    <div class="stat-card">
+      <small>Total Customers</small>
+      <h2 id="totalCustomers">0</h2>
+    </div>
+    <div class="stat-card">
       <small>Total Orders</small>
       <h2 id="totalOrders">0</h2>
     </div>
-    <div class="card">
-      <small>Total Sales</small>
-      <h2 id="totalSales">₱0.00</h2>
-    </div>
-    <div class="card">
-      <small>Pending</small>
+    <div class="stat-card">
+      <small>In Process</small>
       <h2 id="pendingOrders">0</h2>
     </div>
-    <div class="card">
+    <div class="stat-card">
       <small>Ready for Pickup</small>
       <h2 id="readyOrders">0</h2>
     </div>
-    <div class="card">
-      <small>Total Expenses</small>
-      <h2 id="totalExpenses">₱0.00</h2>
+  </section>
+
+  <section class="main-menu">
+    <button class="menu-card active" onclick="openGroup('servicesGroup', this)">
+      <div class="menu-icon">🧺</div>
+      <h2>Services</h2>
+      <p>Price list, laundry packages, service rates, and service units.</p>
+    </button>
+
+    <button class="menu-card" onclick="openGroup('operationsGroup', this)">
+      <div class="menu-icon">📋</div>
+      <h2>Operations</h2>
+      <p>Customer records, job orders, laundry queue, and status monitoring.</p>
+    </button>
+
+    <button class="menu-card" onclick="openGroup('salesGroup', this)">
+      <div class="menu-icon">💳</div>
+      <h2>Sales Tracker</h2>
+      <p>Payment records, daily sales, expenses, and transaction monitoring.</p>
+    </button>
+
+    <button class="menu-card" onclick="openGroup('reportsGroup', this)">
+      <div class="menu-icon">📊</div>
+      <h2>Reports</h2>
+      <p>Summary reports, monthly figures, and business performance overview.</p>
+    </button>
+  </section>
+
+  <div id="servicesGroup" class="sub-nav active">
+    <button class="active" onclick="showSection('services', this)">Price List</button>
+  </div>
+
+  <div id="operationsGroup" class="sub-nav">
+    <button onclick="showSection('customers', this)">Customers</button>
+    <button onclick="showSection('orders', this)">Job Orders</button>
+    <button onclick="showSection('status', this)">Status</button>
+  </div>
+
+  <div id="salesGroup" class="sub-nav">
+    <button onclick="showSection('payments', this)">Payments</button>
+    <button onclick="showSection('expenses', this)">Expenses</button>
+  </div>
+
+  <div id="reportsGroup" class="sub-nav">
+    <button onclick="showSection('reports', this)">Summary</button>
+  </div>
+
+  <!-- SERVICES -->
+  <section id="services" class="section active">
+    <h2>Services / Price List</h2>
+    <div class="form-grid">
+      <input id="serviceName" placeholder="Service Name">
+      <input id="serviceRate" type="number" placeholder="Rate">
+      <select id="serviceUnit">
+        <option>Per Kilo</option>
+        <option>Per Piece</option>
+        <option>Fixed Rate</option>
+      </select>
     </div>
-    <div class="card">
-      <small>Net Income</small>
-      <h2 id="netIncome">₱0.00</h2>
+    <button class="btn" onclick="addService()">Add Service</button>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Service</th>
+            <th>Rate</th>
+            <th>Unit</th>
+          </tr>
+        </thead>
+        <tbody id="serviceTable"></tbody>
+      </table>
     </div>
   </section>
 
-  <nav class="nav">
-    <button class="active" onclick="showSection('customers', this)">Customers</button>
-    <button onclick="showSection('orders', this)">Job Orders</button>
-    <button onclick="showSection('services', this)">Services</button>
-    <button onclick="showSection('payments', this)">Payments</button>
-    <button onclick="showSection('status', this)">Status</button>
-    <button onclick="showSection('expenses', this)">Expenses</button>
-    <button onclick="showSection('reports', this)">Reports</button>
-  </nav>
-
-  <!-- 1 CUSTOMER RECORDS -->
-  <section id="customers" class="section active">
+  <!-- CUSTOMERS -->
+  <section id="customers" class="section">
     <h2>Customer Records</h2>
     <div class="form-grid">
       <input id="customerName" placeholder="Customer Name">
@@ -272,7 +449,7 @@ th{
     </div>
   </section>
 
-  <!-- 2 JOB ORDERS -->
+  <!-- JOB ORDERS -->
   <section id="orders" class="section">
     <h2>Laundry Job Order</h2>
     <div class="form-grid">
@@ -325,35 +502,7 @@ th{
     </div>
   </section>
 
-  <!-- 3 SERVICES -->
-  <section id="services" class="section">
-    <h2>Services / Price List</h2>
-    <div class="form-grid">
-      <input id="serviceName" placeholder="Service Name">
-      <input id="serviceRate" type="number" placeholder="Rate">
-      <select id="serviceUnit">
-        <option>Per Kilo</option>
-        <option>Per Piece</option>
-        <option>Fixed Rate</option>
-      </select>
-    </div>
-    <button class="btn" onclick="addService()">Add Service</button>
-
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Service</th>
-            <th>Rate</th>
-            <th>Unit</th>
-          </tr>
-        </thead>
-        <tbody id="serviceTable"></tbody>
-      </table>
-    </div>
-  </section>
-
-  <!-- 4 PAYMENTS -->
+  <!-- PAYMENTS -->
   <section id="payments" class="section">
     <h2>Payment Tracking</h2>
     <p>Payment status is linked from Job Orders.</p>
@@ -372,7 +521,7 @@ th{
     </div>
   </section>
 
-  <!-- 5 STATUS -->
+  <!-- STATUS -->
   <section id="status" class="section">
     <h2>Laundry Status Tracking</h2>
     <p>Track laundry from received to released.</p>
@@ -391,7 +540,7 @@ th{
     </div>
   </section>
 
-  <!-- 6 EXPENSES -->
+  <!-- EXPENSES -->
   <section id="expenses" class="section">
     <h2>Expense Tracker</h2>
     <div class="form-grid">
@@ -427,14 +576,26 @@ th{
     </div>
   </section>
 
-  <!-- 7 REPORTS -->
+  <!-- REPORTS -->
   <section id="reports" class="section">
-    <h2>Dashboard / Reports</h2>
-    <div class="card">
-      <p><strong>Total Sales:</strong> <span id="reportSales">₱0.00</span></p>
-      <p><strong>Total Expenses:</strong> <span id="reportExpenses">₱0.00</span></p>
-      <p><strong>Net Income:</strong> <span id="reportNet">₱0.00</span></p>
-      <p><strong>Total Job Orders:</strong> <span id="reportOrders">0</span></p>
+    <h2>Reports Summary</h2>
+    <div class="report-grid">
+      <div class="report-card">
+        <small>Total Sales</small>
+        <h2 id="reportSales">₱0.00</h2>
+      </div>
+      <div class="report-card">
+        <small>Total Expenses</small>
+        <h2 id="reportExpenses">₱0.00</h2>
+      </div>
+      <div class="report-card">
+        <small>Net Income</small>
+        <h2 id="reportNet">₱0.00</h2>
+      </div>
+      <div class="report-card">
+        <small>Total Job Orders</small>
+        <h2 id="reportOrders">0</h2>
+      </div>
     </div>
   </section>
 
@@ -464,9 +625,25 @@ function saveData(){
   localStorage.setItem("ml_expenses", JSON.stringify(expenses));
 }
 
+function openGroup(groupId, card){
+  document.querySelectorAll(".menu-card").forEach(c => c.classList.remove("active"));
+  document.querySelectorAll(".sub-nav").forEach(n => n.classList.remove("active"));
+  document.querySelectorAll(".section").forEach(sec => sec.classList.remove("active"));
+  document.querySelectorAll(".sub-nav button").forEach(b => b.classList.remove("active"));
+
+  card.classList.add("active");
+  document.getElementById(groupId).classList.add("active");
+
+  const firstBtn = document.querySelector("#" + groupId + " button");
+  if(firstBtn){
+    firstBtn.classList.add("active");
+    firstBtn.click();
+  }
+}
+
 function showSection(id, btn){
   document.querySelectorAll(".section").forEach(sec => sec.classList.remove("active"));
-  document.querySelectorAll(".nav button").forEach(b => b.classList.remove("active"));
+  document.querySelectorAll(".sub-nav button").forEach(b => b.classList.remove("active"));
 
   document.getElementById(id).classList.add("active");
   btn.classList.add("active");
@@ -591,7 +768,7 @@ function renderOrders(){
       <td>${o.service}</td>
       <td>${o.qty}</td>
       <td>${money(o.total)}</td>
-      <td><span class="badge ${o.payment === 'Paid' ? 'paid' : 'unpaid'}">${o.payment}</span></td>
+      <td><span class="badge ${paymentClass(o.payment)}">${o.payment}</span></td>
       <td><span class="badge ${o.status === 'Ready for Pickup' ? 'ready' : 'pending'}">${o.status}</span></td>
     </tr>
   `).join("");
@@ -624,7 +801,7 @@ function renderPayments(){
       <td>${o.no}</td>
       <td>${o.customer}</td>
       <td>${money(o.total)}</td>
-      <td><span class="badge ${o.payment === 'Paid' ? 'paid' : 'unpaid'}">${o.payment}</span></td>
+      <td><span class="badge ${paymentClass(o.payment)}">${o.payment}</span></td>
     </tr>
   `).join("");
 }
@@ -640,6 +817,12 @@ function renderStatus(){
   `).join("");
 }
 
+function paymentClass(payment){
+  if(payment === "Paid") return "paid";
+  if(payment === "Partial") return "partial";
+  return "unpaid";
+}
+
 function renderDashboard(){
   const sales = orders.reduce((sum,o) => sum + Number(o.total || 0), 0);
   const expenseTotal = expenses.reduce((sum,e) => sum + Number(e.amount || 0), 0);
@@ -647,12 +830,10 @@ function renderDashboard(){
   const ready = orders.filter(o => o.status === "Ready for Pickup").length;
   const net = sales - expenseTotal;
 
+  totalCustomers.textContent = customers.length;
   totalOrders.textContent = orders.length;
-  totalSales.textContent = money(sales);
   pendingOrders.textContent = pending;
   readyOrders.textContent = ready;
-  totalExpenses.textContent = money(expenseTotal);
-  netIncome.textContent = money(net);
 
   reportSales.textContent = money(sales);
   reportExpenses.textContent = money(expenseTotal);
