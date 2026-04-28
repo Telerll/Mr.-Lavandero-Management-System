@@ -783,8 +783,10 @@ function deleteExpense(i){
   }
 }
 
+<script>
 function printReceipt(i){
   const o = orders[i];
+  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=90x90&data=${encodeURIComponent('status.html?jo=' + o.no)}`;
 
   const receipt = `
   <!DOCTYPE html>
@@ -805,6 +807,7 @@ function printReceipt(i){
       .total{font-size:15px;font-weight:bold}
       .claim{border:1px dashed #000;padding:8px;margin-top:10px;font-size:10px;text-align:center}
       .note{text-align:center;margin-top:12px;font-size:10px;line-height:1.4}
+      .qr-label{font-size:10px;margin-top:4px;font-weight:bold;text-align:center}
       @media print{body{padding:0}.receipt{width:280px}}
     </style>
   </head>
@@ -831,6 +834,12 @@ function printReceipt(i){
       <div class="line"></div>
 
       <div class="claim">Please present this receipt when claiming laundry.</div>
+
+      <div class="center" style="margin-top:10px;">
+        <img src="${qrUrl}" width="90" height="90">
+        <div class="qr-label">Scan to track laundry status</div>
+      </div>
+
       <div class="note">Thank you for choosing Mr. Lavandero!<br>Ipaglalaba ka sa lahat ng panahon.</div>
     </div>
 
@@ -846,6 +855,7 @@ function printReceipt(i){
   printWindow.document.write(receipt);
   printWindow.document.close();
 }
+</script>
 
 function renderAll(){
   renderCustomers();
