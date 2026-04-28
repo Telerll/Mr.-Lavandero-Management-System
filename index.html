@@ -785,7 +785,17 @@ function deleteExpense(i){
 
 function printReceipt(i){
   const o = orders[i];
-  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=90x90&data=${encodeURIComponent('status.html?jo=' + o.no)}`;
+
+  const qrData =
+`Mr. Lavandero Laundry Status
+JO No.: ${o.no}
+Customer: ${o.customer}
+Service: ${o.service}
+Payment: ${o.payment}
+Status: ${o.status}
+Total: ${money(o.total)}`;
+
+  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=90x90&data=${encodeURIComponent(qrData)}`;
 
   const receipt = `
   <!DOCTYPE html>
