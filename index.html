@@ -783,7 +783,6 @@ function deleteExpense(i){
   }
 }
 
-<script>
 function printReceipt(i){
   const o = orders[i];
   const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=90x90&data=${encodeURIComponent('status.html?jo=' + o.no)}`;
@@ -850,12 +849,11 @@ function printReceipt(i){
   </html>
   `;
 
-  const printWindow = window.open("", "_blank", "width=400,height=650");
+   const printWindow = window.open("", "_blank", "width=400,height=650");
   printWindow.document.open();
   printWindow.document.write(receipt);
   printWindow.document.close();
 }
-</script>
 
 function renderAll(){
   renderCustomers();
